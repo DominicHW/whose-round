@@ -1,24 +1,22 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
 import { CaretRight } from 'phosphor-react-native';
+import useColorScheme from '../hooks/useColorScheme';
 
 const styles = StyleSheet.create({
     primary: {
-        color: Colors.black,
         fontSize: 17
     },
     secondary:{
-        color: Colors.black,
         fontSize: 13
     },
     tertiary:{
-        color: Colors.grey,
         fontSize: 15
     },
     container: {
         flexDirection: 'row',
         justifyContent:'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     }
 })
 
@@ -29,15 +27,17 @@ export interface IGroupItem {
 }
 
 const GroupItem = ({name, userTotal, userRound}: IGroupItem) => {
+    const colorScheme = useColorScheme();
+
     return <View style={styles.container}>
         <View>
-            <Text style={styles.primary}>{name}</Text>
-            <Text style={styles.secondary}>{userTotal} People</Text>
-            <Text style={styles.tertiary}>It's {userRound}'s Round!</Text>
+            <Text style={[styles.primary, { color: Colors[colorScheme].text }]}>{name}</Text>
+            <Text style={[styles.secondary, { color: Colors[colorScheme].text }]}>{userTotal} People</Text>
+            <Text style={[styles.tertiary, { color: Colors.grey, marginTop: 5 }]}>It's {userRound}'s Round!</Text>
         </View>
 
         <TouchableOpacity onPress={()=>console.log(name)}>
-            <CaretRight color={Colors.black} size={28} />
+            <CaretRight color={Colors[colorScheme].text} size={28} />
         </TouchableOpacity>
     </View>
 }

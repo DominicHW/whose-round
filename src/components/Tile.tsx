@@ -1,9 +1,9 @@
 import { View, StyleSheet } from 'react-native';
 import Colors from '../constants/Colors';
+import useColorScheme from '../hooks/useColorScheme';
 
 const styles = StyleSheet.create({
     tile: {
-        backgroundColor: Colors.offWhite,
         borderRadius: 10,
         paddingHorizontal: 25,
         paddingVertical: 20,
@@ -14,7 +14,14 @@ const styles = StyleSheet.create({
 });
 
 const Tile = ({children}: {children:any}) => {  
-    return <View style={styles.tile}>
+    const colorScheme = useColorScheme();
+
+    const themedStyles = {
+        backgroundColor: colorScheme === 'light' ? Colors.white : Colors.mediumGrey,
+        color: Colors[colorScheme].text
+    }
+
+    return <View style={[ styles.tile, themedStyles ]}>
         {children}
     </View>
 }

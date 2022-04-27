@@ -1,11 +1,13 @@
 import { StyleSheet, ScrollView } from 'react-native';
+import { Plus } from 'phosphor-react-native';
+import NoGroupsImage from '../../assets/images/no-groups-available.svg'
 
-import GroupItem, { IGroupItem } from '../components/GroupItem';
-import EditScreenInfo from '../components/EditScreenInfo';
-import { View } from '../components/Themed';
-import { RootTabScreenProps } from '../../types';
-
+import { View, Text } from '../components/Themed';
 import Tile from '../components/Tile';
+import GroupItem, { IGroupItem } from '../components/GroupItem';
+import { RootTabScreenProps } from '../../types';
+import Colors from '../constants/Colors'
+
 
 const data:Array<IGroupItem> = [
   {
@@ -50,8 +52,20 @@ const data:Array<IGroupItem> = [
   }
 ];
 
+const EmptyState = () => {
+  return <View style={styles.container}>
+    <NoGroupsImage height={175}/>
+    <Text style={styles.title}>No Groups Available</Text>
+    <View style={styles.subContainer}>
+      <Text style={styles.subTitle}>Create or join a group using the </Text>
+      <Plus color={Colors.grey} />
+      <Text style={styles.subTitle}> button</Text>
+    </View>
+  </View>
+}
+
 export default function GroupsPage({ navigation }: RootTabScreenProps<'Groups'>) {
-  return (
+  return data.length === 0 ? <EmptyState /> : (
     <View style={styles.container}>
       <ScrollView style={{width:'100%', marginTop:7}}>
         {data.map((group:IGroupItem, index:number) => (
@@ -60,8 +74,6 @@ export default function GroupsPage({ navigation }: RootTabScreenProps<'Groups'>)
             </Tile>
         ))}
       </ScrollView>
-
-      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>
   );
 }
@@ -72,8 +84,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 70,
-    fontWeight: 'bold',
+  subContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
+  title: {
+    fontSize: 30,
+    marginTop: 20,
+    marginBottom: 10
+  },
+  subTitle: {
+    fontSize: 17,
+    color: Colors.grey,
+  }
 });
